@@ -2,24 +2,31 @@ import * as React from 'react';
 import styles from './PersonalDashboard.module.scss';
 import { IPersonalDashboardProps } from './IPersonalDashboardProps';
 import { escape } from '@microsoft/sp-lodash-subset';
+import { useDispatch } from 'react-redux';
+import { fetchEmails } from '../store/slices/mainSlice';
+import type {} from 'redux-thunk/extend-redux';
 
-export default class PersonalDashboard extends React.Component<IPersonalDashboardProps, {}> {
-    public render(): React.ReactElement<IPersonalDashboardProps> {
-        const {
-            hasTeamsContext,
-            userDisplayName,
-            serviceScope
-        } = this.props;
+const PersonalDashboard: React.FC<IPersonalDashboardProps> = (props: IPersonalDashboardProps) => {
 
-        return (
-            <section className={`${styles.personalDashboard} ${hasTeamsContext ? styles.teams : ''}`}>
-                <div className={styles.welcome}>
-                    <h2>Hello {escape(userDisplayName)}!</h2>
-                </div>
+    const dispatch = useDispatch();
+
+    React.useEffect(() => {
+        dispatch(fetchEmails(props.serviceScope));
+        debugger;
+    }, [dispatch]);
 
 
+    return (
+        <section className={`${styles.personalDashboard} ${props.hasTeamsContext ? styles.teams : ''}`}>
+            <div className={styles.welcome}>
+                <h2>Hello {escape(props.userDisplayName)}!</h2>
+            </div>
 
-            </section>
-        );
-    }
+
+        </section>
+    );
 }
+
+export default PersonalDashboard;
+
+

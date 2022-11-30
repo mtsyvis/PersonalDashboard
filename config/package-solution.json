@@ -3,10 +3,16 @@
   "solution": {
     "name": "personal-dasboard-client-side-solution",
     "id": "9dfa223e-442e-4edd-a046-8c3aeff50fe3",
-    "version": "1.0.0.0",
+    "version": "1.0.1.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
+    "webApiPermissionRequests": [
+        {
+          "resource": "Microsoft Graph",
+          "scope": "Mail.Read"
+        }
+    ],
     "developer": {
       "name": "",
       "websiteUrl": "",

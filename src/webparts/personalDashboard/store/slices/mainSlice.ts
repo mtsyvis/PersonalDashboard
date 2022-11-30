@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // import CodesService from "../../../../services/CodesService";
 import { IEmail } from "../../models/IEmail";
+import EmailService from "../../services/EmailService";
 import { AppThunk, RootState } from "../store";
 
 export interface IMainState {
@@ -39,6 +40,25 @@ export const { setEmails, setEmailsLoaded, setError } = mainSlice.actions;
 export const getCodes = (state: RootState): IEmail[] => state.main.emails;
 export const getEmailsLoaded = (state: RootState): boolean => state.main.emailsLoaded;
 export const getError = (state: RootState): string | undefined => state.main.error;
+
+
+export const fetchEmails =
+    (serviceScope: ServiceScope): AppThunk =>
+    async (dispatch, getState) => {
+        try {
+            const state = getState();
+            dispatch(setEmailsLoaded(false));
+
+            const emailService = serviceScope.consume(EmailService.serviceKey);
+            const emails = await emailService.getEmails();
+            debugger;
+
+            dispatch(setEmailsLoaded(true));
+        } catch (ex) {
+            console.error(ex);
+            dispatch(setError(ex?.message));
+        }
+    };
 
 
 export default mainSlice.reducer;
