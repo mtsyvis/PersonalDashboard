@@ -1,43 +1,61 @@
 import * as React from 'react';
 import styles from './PersonalDashboard.module.scss';
 import { IPersonalDashboardProps } from './IPersonalDashboardProps';
-import { escape } from '@microsoft/sp-lodash-subset';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchEmails, getEmails, getEmailsLoaded, getError } from '../store/slices/mainSlice';
+import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/components/Spinner';
+import { List } from 'office-ui-fabric-react/lib/components/List';
+import { Link } from 'office-ui-fabric-react/lib/components/Link';
+import type { } from 'redux-thunk/extend-redux';
+import IEmail from '../models/IEmail';
 
-export default class PersonalDashboard extends React.Component<IPersonalDashboardProps, {}> {
-  public render(): React.ReactElement<IPersonalDashboardProps> {
-    const {
-      description,
-      isDarkTheme,
-      environmentMessage,
-      hasTeamsContext,
-      userDisplayName
-    } = this.props;
+
+const PersonalDashboard: React.FC<IPersonalDashboardProps> = (props: IPersonalDashboardProps) => {
+
+    const dispatch = useDispatch();
+    const loaded = useSelector(getEmailsLoaded);
+    const emails = useSelector(getEmails);
+    const error = useSelector(getError);
+
+    React.useEffect(() => {
+        dispatch(fetchEmails(props.serviceScope));
+    }, [dispatch, props.serviceScope]);
+
+
+    const onRenderCell = (item: IEmail, index: number | undefined): JSX.Element => {
+        return <Link href={item.webLink} className={styles.message} target='_blank'>
+            <div className={styles.from}>{item.from.emailAddress.name || item.from.emailAddress.address}</div>
+            <div className={styles.subject}>{item.subject}</div>
+            <div className={styles.date}>{(new Date(item.receivedDateTime).toLocaleDateString())}</div>
+            <div className={styles.preview}>{item.bodyPreview}</div>
+        </Link>;
+    }
 
     return (
-      <section className={`${styles.personalDashboard} ${hasTeamsContext ? styles.teams : ''}`}>
-        <div className={styles.welcome}>
-          <img alt="" src={isDarkTheme ? require('../assets/welcome-dark.png') : require('../assets/welcome-light.png')} className={styles.welcomeImage} />
-          <h2>Well done, {escape(userDisplayName)}!</h2>
-          <div>{environmentMessage}</div>
-          <div>Web part property value: <strong>{escape(description)}</strong></div>
-        </div>
-        <div>
-          <h3>Welcome to SharePoint Framework!</h3>
-          <p>
-            The SharePoint Framework (SPFx) is a extensibility model for Microsoft Viva, Microsoft Teams and SharePoint. It&#39;s the easiest way to extend Microsoft 365 with automatic Single Sign On, automatic hosting and industry standard tooling.
-          </p>
-          <h4>Learn more about SPFx development:</h4>
-          <ul className={styles.links}>
-            <li><a href="https://aka.ms/spfx" target="_blank" rel="noreferrer">SharePoint Framework Overview</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-graph" target="_blank" rel="noreferrer">Use Microsoft Graph in your solution</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-teams" target="_blank" rel="noreferrer">Build for Microsoft Teams using SharePoint Framework</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-viva" target="_blank" rel="noreferrer">Build for Microsoft Viva Connections using SharePoint Framework</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-store" target="_blank" rel="noreferrer">Publish SharePoint Framework applications to the marketplace</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-api" target="_blank" rel="noreferrer">SharePoint Framework API reference</a></li>
-            <li><a href="https://aka.ms/m365pnp" target="_blank" rel="noreferrer">Microsoft 365 Developer Community</a></li>
-          </ul>
-        </div>
-      </section>
+        <section className={`${styles.personalDashboard} ${props.hasTeamsContext ? styles.teams : ''}`}>
+            <div className={styles.personalEmail}>
+                {!loaded &&
+                    <Spinner label={"Loading"} size={SpinnerSize.large} />
+                }
+                {emails && emails.length > 0 ? (
+                    <div>
+                        <List items={emails}
+                            onRenderCell={onRenderCell} className={styles.list} />
+                        <Link href='https://outlook.office.com/owa/' target='_blank' className={styles.viewAll}>ViewAll</Link>
+                    </div>
+                ) : (
+                    loaded && (
+                        error ?
+                            <span className={styles.error}>{error}</span> :
+                            <span className={styles.noMessages}>No Messages</span>
+                    )
+                )
+                }
+            </div>
+        </section>
     );
-  }
 }
+
+export default PersonalDashboard;
+
+

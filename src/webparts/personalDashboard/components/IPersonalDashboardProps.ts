@@ -1,7 +1,7 @@
+import { ServiceScope } from "@microsoft/sp-core-library";
+
 export interface IPersonalDashboardProps {
-  description: string;
-  isDarkTheme: boolean;
-  environmentMessage: string;
-  hasTeamsContext: boolean;
-  userDisplayName: string;
+    hasTeamsContext: boolean;
+    userDisplayName: string;
+    serviceScope: ServiceScope;
 }
