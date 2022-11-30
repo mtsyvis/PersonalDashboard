@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "personal-dasboard-client-side-solution",
+    "id": "9dfa223e-442e-4edd-a046-8c3aeff50fe3",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.15.2"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "personal-dasboard description"
+      },
+      "longDescription": {
+        "default": "personal-dasboard description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "personal-dasboard Feature",
+        "description": "The feature that activates elements of the personal-dasboard solution.",
+        "id": "f731e583-6372-426c-bd5d-ac622d0e3d49",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/personal-dasboard.sppkg"
+  }
+}

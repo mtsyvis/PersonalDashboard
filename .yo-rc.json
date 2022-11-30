@@ -1,0 +1,16 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "version": "1.15.2",
+    "libraryName": "personal-dasboard",
+    "libraryId": "9dfa223e-442e-4edd-a046-8c3aeff50fe3",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "personal-dasboard",
+    "solutionShortDescription": "personal-dasboard description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}
