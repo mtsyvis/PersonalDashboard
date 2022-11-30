@@ -1,8 +1,6 @@
 import { ServiceScope } from "@microsoft/sp-core-library";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import * as strings from "CodeAssistWebPartStrings";
 
-// import CodesService from "../../../../services/CodesService";
 import { IEmail } from "../../models/IEmail";
 import EmailService from "../../services/EmailService";
 import { AppThunk, RootState } from "../store";
@@ -37,21 +35,20 @@ const mainSlice = createSlice({
 
 export const { setEmails, setEmailsLoaded, setError } = mainSlice.actions;
 
-export const getCodes = (state: RootState): IEmail[] => state.main.emails;
+export const getEmails = (state: RootState): IEmail[] => state.main.emails;
 export const getEmailsLoaded = (state: RootState): boolean => state.main.emailsLoaded;
 export const getError = (state: RootState): string | undefined => state.main.error;
 
 
 export const fetchEmails =
     (serviceScope: ServiceScope): AppThunk =>
-    async (dispatch, getState) => {
+    async (dispatch, _getState) => {
         try {
-            const state = getState();
             dispatch(setEmailsLoaded(false));
 
             const emailService = serviceScope.consume(EmailService.serviceKey);
-            const emails = await emailService.getEmails();
-            debugger;
+            const emails: IEmail[] = await emailService.getEmails();
+            dispatch(setEmails(emails));
 
             dispatch(setEmailsLoaded(true));
         } catch (ex) {

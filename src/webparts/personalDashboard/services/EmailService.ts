@@ -14,12 +14,11 @@ export default class EmailService {
     }
 
     public async getEmails(): Promise<IEmail[]> {
-
         const client = await this.graph.getClient("3");
 
         try {
 
-            const emails = await client
+            const res = await client
                 .api("me/messages")
                 .version("v1.0")
                 .select("bodyPreview,receivedDateTime,from,subject,webLink")
@@ -27,13 +26,11 @@ export default class EmailService {
                 .orderby("receivedDateTime desc")
                 .get();
 
-            debugger;
-
-            return [];
+            return res.value || [];
         }
-        catch {
+        catch(e) {
             console.warn("Can't read user emails");
-            return [];
+            throw e;
         }
     }
 }

@@ -1,34 +1,100 @@
-@import '~office-ui-fabric-react/dist/sass/References.scss';
+@import "~office-ui-fabric-react/dist/sass/References.scss";
 
 .personalDashboard {
-  overflow: hidden;
-  padding: 1em;
-  color: "[theme:bodyText, default: #323130]";
-  color: var(--bodyText);
-  &.teams {
-    font-family: $ms-font-family-fallbacks;
-  }
+    overflow: hidden;
+    padding: 1em;
+    color: "[theme:bodyText, default: #323130]";
+    color: var(--bodyText);
+    &.teams {
+        font-family: $ms-font-family-fallbacks;
+    }
 }
 
 .welcome {
-  text-align: center;
+    text-align: center;
 }
 
 .welcomeImage {
-  width: 100%;
-  max-width: 420px;
+    width: 100%;
+    max-width: 420px;
 }
 
 .links {
-  a {
-    text-decoration: none;
-    color: "[theme:link, default:#03787c]";
-    color: var(--link); // note: CSS Custom Properties support is limited to modern browsers only
+    a {
+        text-decoration: none;
+        color: "[theme:link, default:#03787c]";
+        color: var(--link); // note: CSS Custom Properties support is limited to modern browsers only
 
-    &:hover {
-      text-decoration: underline;
-      color: "[theme:linkHovered, default: #014446]";
-      color: var(--linkHovered); // note: CSS Custom Properties support is limited to modern browsers only
+        &:hover {
+            text-decoration: underline;
+            color: "[theme:linkHovered, default: #014446]";
+            color: var(--linkHovered); // note: CSS Custom Properties support is limited to modern browsers only
+        }
     }
-  }
+}
+
+.personalEmail {
+    .title,
+    .viewAll {
+        padding-left: 10px;
+    }
+
+    .list {
+        margin-bottom: 1em;
+    }
+
+    .message {
+        display: block;
+        padding: 0.5em 10px;
+        color: $ms-color-black;
+
+        &:hover {
+            color: inherit;
+            background: $ms-color-neutralLight;
+        }
+    }
+
+    .from {
+        @include ms-font-l;
+        @include ms-fontWeight-semilight;
+    }
+
+    .subject {
+        @include ms-font-s;
+        @include ms-fontWeight-semibold;
+        color: $ms-color-themePrimary;
+        float: left;
+        width: 80%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .date {
+        @include ms-font-s;
+        @include ms-fontWeight-semibold;
+        color: $ms-color-themePrimary;
+        float: right;
+        width: 20%;
+        text-align: right;
+        word-break: keep-all;
+    }
+
+    .preview {
+        @include ms-font-s;
+        @include ms-fontWeight-light;
+        clear: both;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .noMessages {
+        @include ms-font-m;
+    }
+
+    .error {
+        @include ms-font-m;
+        color: $ms-color-alert;
+    }
 }
